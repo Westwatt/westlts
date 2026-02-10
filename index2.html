@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WestWatt Solutions ⚡</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --primary:#ffb703;
+  --dark:#0b132b;
+  --glass:rgba(255,255,255,0.15);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins;}
+
+body{
+  background:#0b132b;
+  color:#fff;
+  overflow-x:hidden;
+}
+
+/* ===== CIRCUIT BACKGROUND ===== */
+canvas{
+  position:fixed;
+  inset:0;
+  z-index:-1;
+}
+
+/* ===== HEADER ===== */
+header{
+  position:fixed;
+  width:100%;
+  top:0;
+  z-index:1000;
+  backdrop-filter:blur(10px);
+  background:var(--glass);
+}
+
+.nav{
+  max-width:1200px;
+  margin:auto;
+  padding:1rem;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.logo{
+  font-size:1.5rem;
+  font-weight:700;
+  color:var(--primary);
+}
+
+/* ===== HAMBURGER ===== */
+.hamburger{
+  width:30px;
+  height:22px;
+  display:none;
+  flex-direction:column;
+  justify-content:space-between;
+  cursor:pointer;
+}
+.hamburger span{
+  height:3px;
+  background:#fff;
+  border-radius:5px;
+  transition:0.4s;
+}
+.hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px);}
+.hamburger.active span:nth-child(2){opacity:0;}
+.hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(6px,-6px);}
+
+/* ===== MENU ===== */
+.menu{display:flex;gap:2rem;}
+.menu a{color:#fff;text-decoration:none;font-weight:500;}
+.menu a:hover{color:var(--primary);}
+
+/* ===== HERO ===== */
+.hero{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:7rem 1rem;
+}
+
+.hero-content{animation:slideUp 1.2s ease;}
+.hero h1{font-size:3rem;}
+.hero span{color:var(--primary);}
+.hero p{max-width:600px;margin:1rem auto;opacity:0.9;}
+
+.hero button{
+  margin-top:2rem;
+  padding:0.8rem 2rem;
+  border:none;
+  border-radius:30px;
+  background:var(--primary);
+  font-weight:600;
+  cursor:pointer;
+}
+
+/* ===== POWER STATS ===== */
+.stats{
+  max-width:1200px;
+  margin:auto;
+  padding:4rem 1rem;
+}
+
+.stats h2{
+  text-align:center;
+  margin-bottom:2rem;
+}
+
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:2rem;
+}
+
+.stat-card{
+  background:var(--glass);
+  padding:2rem;
+  border-radius:20px;
+  text-align:center;
+  opacity:0;
+  transform:translateY(30px);
+  transition:0.6s;
+}
+
+.stat-card.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.stat-value{
+  font-size:2.5rem;
+  font-weight:700;
+  color:var(--primary);
+}
+
+.stat-label{
+  margin-top:0.5rem;
+  opacity:0.8;
+}
+
+/* ===== SERVICES ===== */
+.services{
+  max-width:1200px;
+  margin:auto;
+  padding:4rem 1rem;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:2rem;
+}
+
+.card{
+  background:var(--glass);
+  padding:2rem;
+  border-radius:20px;
+  opacity:0;
+  transform:translateY(40px);
+  transition:0.6s;
+}
+
+.card.show{opacity:1;transform:translateY(0);}
+.card h3{color:var(--primary);margin-bottom:1rem;}
+
+/* ===== FOOTER ===== */
+footer{
+  text-align:center;
+  padding:2rem;
+  background:rgba(0,0,0,0.3);
+}
+
+/* ===== WHATSAPP ===== */
+.whatsapp{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:#25d366;
+  padding:15px 18px;
+  border-radius:50%;
+  font-size:1.5rem;
+  color:white;
+  text-decoration:none;
+  animation:pulse 1.5s infinite;
+}
+
+/* ===== ANIM ===== */
+@keyframes slideUp{
+  from{opacity:0;transform:translateY(40px);}
+  to{opacity:1;transform:translateY(0);}
+}
+@keyframes pulse{
+  50%{transform:scale(1.1);}
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:768px){
+  .hamburger{display:flex;}
+  .menu{
+    position:absolute;
+    top:70px;
+    right:0;
+    width:100%;
+    background:#1c2541;
+    flex-direction:column;
+    align-items:center;
+    display:none;
+    padding:2rem 0;
+  }
+  .menu.active{display:flex;}
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="circuit"></canvas>
+
+<header>
+  <nav class="nav">
+    <div class="logo">⚡ WestWatt</div>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+    <div class="menu" id="menu">
+      <a href="#home">Home</a>
+      <a href="#stats">Power</a>
+      <a href="#services">Services</a>
+    </div>
+  </nav>
+</header>
+
+<section class="hero" id="home">
+  <div class="hero-content">
+    <h1>Real-Time <span>Power Intelligence</span></h1>
+    <p>Monitor, optimize & control energy with engineering precision.</p>
+    <button onclick="scrollTo('stats')">View Power Stats</button>
+  </div>
+</section>
+
+<section class="stats" id="stats">
+  <h2>⚡ Live Power Stats (Mockup)</h2>
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-value" data-target="12.8">0</div><div class="stat-label">Current Output (kW)</div></div>
+    <div class="stat-card"><div class="stat-value" data-target="64">0</div><div class="stat-label">Energy Today (kWh)</div></div>
+    <div class="stat-card"><div class="stat-value" data-target="82">0</div><div class="stat-label">Battery Level (%)</div></div>
+    <div class="stat-card"><div class="stat-value" data-target="145">0</div><div class="stat-label">CO₂ Saved (kg)</div></div>
+  </div>
+</section>
+
+<section class="services" id="services">
+  <div class="card"><h3>☀ Solar Systems</h3><p>High-efficiency installations.</p></div>
+  <div class="card"><h3>🔋 Backup Power</h3><p>Reliable inverter solutions.</p></div>
+  <div class="card"><h3>⚙ Engineering Design</h3><p>Smart electrical planning.</p></div>
+</section>
+
+<footer>© 2026 WestWatt Solutions Ltd • Nairobi</footer>
+
+<a class="whatsapp" href="https://wa.me/254700000000" target="_blank">💬</a>
+
+<script>
+/* NAV */
+const hamburger=document.getElementById("hamburger");
+const menu=document.getElementById("menu");
+hamburger.onclick=()=>{hamburger.classList.toggle("active");menu.classList.toggle("active");}
+
+/* SCROLL */
+function scrollTo(id){document.getElementById(id).scrollIntoView({behavior:"smooth"});}
+
+/* STATS COUNT */
+const statCards=document.querySelectorAll(".stat-card");
+let statsPlayed=false;
+
+window.addEventListener("scroll",()=>{
+  statCards.forEach(card=>{
+    if(card.getBoundingClientRect().top < window.innerHeight-100){
+      card.classList.add("show");
+      if(!statsPlayed){
+        animateStats();
+        statsPlayed=true;
+      }
+    }
+  });
+});
+
+function animateStats(){
+  document.querySelectorAll(".stat-value").forEach(el=>{
+    const target=parseFloat(el.dataset.target);
+    let val=0;
+    const step=target/60;
+    const interval=setInterval(()=>{
+      val+=step;
+      el.innerText=val.toFixed(1);
+      if(val>=target){
+        el.innerText=target;
+        clearInterval(interval);
+      }
+    },20);
+  });
+}
+
+/* CIRCUIT BG */
+const canvas=document.getElementById("circuit");
+const ctx=canvas.getContext("2d");
+function resize(){canvas.width=innerWidth;canvas.height=innerHeight;}
+resize();addEventListener("resize",resize);
+
+let lines=Array.from({length:120},()=>({
+  x:Math.random()*canvas.width,
+  y:Math.random()*canvas.height,
+  l:Math.random()*80+40,
+  s:Math.random()*0.6+0.3
+}));
+
+function draw(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.strokeStyle="rgba(255,183,3,0.35)";
+  lines.forEach(p=>{
+    ctx.beginPath();
+    ctx.moveTo(p.x,p.y);
+    ctx.lineTo(p.x+p.l,p.y);
+    ctx.stroke();
+    p.x+=p.s;
+    if(p.x>canvas.width)p.x=0;
+  });
+  requestAnimationFrame(draw);
+}
+draw();
+</script>
+
+</body>
+</html>
